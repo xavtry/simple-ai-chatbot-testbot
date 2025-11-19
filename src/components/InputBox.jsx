@@ -1,17 +1,15 @@
+import { useState } from "react";
+
 export default function InputBox({ onSend, disabled }) {
-  let inputValue = '';
+  const [value, setValue] = useState("");
 
   const handleKey = (e) => {
-    if (e.key === 'Enter' && !e.shiftKey) {
+    if (e.key === "Enter" && !e.shiftKey) {
       e.preventDefault();
-      if (inputValue.trim()) {
-        onSend(inputValue.trim());
-        e.target.value = '';
-        inputValue = '';
+      if (value.trim()) {
+        onSend(value.trim());
+        setValue("");
       }
-    } else {
-      {
-      inputValue = e.target.value;
     }
   };
 
@@ -20,9 +18,11 @@ export default function InputBox({ onSend, disabled }) {
       <div className="max-w-3xl mx-auto flex gap-3">
         <input
           type="text"
+          value={value}
+          onChange={(e) => setValue(e.target.value)}
+          onKeyDown={handleKey}
           placeholder="Ask me anything..."
           className="flex-1 px-5 py-3 border rounded-full focus:outline-none focus:border-indigo-500"
-          onKeyDown={handleKey}
           disabled={disabled}
         />
       </div>
